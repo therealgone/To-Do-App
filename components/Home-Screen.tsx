@@ -1,22 +1,91 @@
-import { Text, TouchableOpacity ,Pressable } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Text, Pressable, TextInput, View, FlatList } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 export default function Home() {
+
+    const[taskTitles,setTaskTitles] = useState<string[]>([])
+    const[newTitles,setNewTitles]=useState("")
+
+useEffect(()=> {
+    loadsave();
+},[])
+
+
+const loadsave = async() => {
+    try {
+        const save= await AsyncStorage.getItem("taskTitles");
+        if(save) setTaskTitles(JSON.parse(save))
+    }
+     catch(err)
+     {
+        console.log(err)
+     }
+};
+
+const savetitle = async (titles: string[]) => {
+    try {
+        await AsyncStorage.setItem("taskTitles",JSON.stringify(titles))
+    }
+    catch (err) {
+        console.log(err)
+    }
+};
+
+const deleteTitle = (indexToDelete: number) => {
+
+    const update = taskTitles.filter((_, index) => index !== indexToDelete);
+    setTaskTitles(update)
+    savetitle(update)
+
+}
+
+    const addTitle = () => {
+        if(newTitles.trim() === "") return;
+
+        const update = [... taskTitles, newTitles.trim()];
+
+        setTaskTitles(update);
+        savetitle(update)
+        setNewTitles("")
+
+    }
 
 
     return (
     <SafeAreaProvider>
   <SafeAreaView className='bg-black flex-1'>
     <Text className='text-white text-center font-extrabold p-3 text-2xl '>Taskify</Text>
-
+<View>
+    <TextInput className="border border-white  bg-white  "
+    placeholder="Enter Task Title"
+    value={newTitles}
+    onChangeText={setNewTitles}></TextInput>
 <Pressable className="border border-white px-3 py-1 rounded-full self-end items-center text-center"
 
-onPress={()=> console.log("Button Pressed")}>
+onPress={addTitle}>
 
           <Text className="text-white text-lg p-2">Add</Text>
         </Pressable>
-    
+</View>
+
+
+<FlatList data={taskTitles}
+keyExtractor={(item,index) => index.toString()}
+renderItem={({item, index}) =>(
+    <View >
+        <Text className="text-white">{item}</Text>
+        <Pressable>
+          <Text className="text-red-600 border border-red-700 self-end "
+            onPress={() => deleteTitle(index)}> X </Text>
+        </Pressable>
+    </View>
+)} />
+
+
   </SafeAreaView>
   </SafeAreaProvider>
 
