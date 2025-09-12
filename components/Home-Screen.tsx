@@ -9,6 +9,7 @@ export default function Home() {
 
     const[taskTitles,setTaskTitles] = useState<string[]>([])
     const[newTitles,setNewTitles]=useState("")
+    const[doneTask,setDoneTask] = useState<number[]>([])
 
 useEffect(()=> {
     loadsave();
@@ -38,9 +39,30 @@ const savetitle = async (titles: string[]) => {
 const deleteTitle = (indexToDelete: number) => {
 
     const update = taskTitles.filter((_, index) => index !== indexToDelete);
+    const indexupdate = doneTask.filter(doneindex => doneindex !== indexToDelete).map(doneindex =>(doneindex > indexToDelete ? doneindex - 1 :doneindex))
+    setDoneTask(indexupdate)
     setTaskTitles(update)
     savetitle(update)
 
+}
+
+const taskdone = (indexdone : number) => {
+
+    if (doneTask.includes(indexdone))
+    {
+        setDoneTask(doneTask.filter(doneindex => doneindex !== indexdone))
+     
+            console.log(doneTask)
+    }
+else {
+setDoneTask([ ...doneTask , indexdone])
+console.log(doneTask)
+}
+    
+
+
+
+   
 }
 
     const addTitle = () => {
@@ -70,17 +92,28 @@ onPress={addTitle}>
 
           <Text className="text-white text-lg p-2">Add</Text>
         </Pressable>
+
+<Pressable
+ onPress={()=>console.log(doneTask)}>
+    <Text className="text-white">Index</Text>
+</Pressable>
 </View>
 
 
 <FlatList data={taskTitles}
 keyExtractor={(item,index) => index.toString()}
 renderItem={({item, index}) =>(
+
     <View >
-        <Text className="text-white">{item}</Text>
+        <Text className={` ${doneTask.includes(index) ?  "text-green-400" : "text-white"}`}>{item}</Text>
         <Pressable>
           <Text className="text-red-600 border border-red-700 self-end "
             onPress={() => deleteTitle(index)}> X </Text>
+        </Pressable>
+        <Pressable
+        onPress={()=> taskdone(index)}>
+            <Text className="self-center">✔️</Text>
+
         </Pressable>
     </View>
 )} />
