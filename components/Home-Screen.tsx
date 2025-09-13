@@ -13,7 +13,44 @@ export default function Home() {
 
 useEffect(()=> {
     loadsave();
+    loadsavedonetask();
+   
 },[])
+
+
+
+
+useEffect(() => {
+
+    savedonetask(doneTask)
+}, [doneTask])
+
+const loadsavedonetask = async() => {
+
+    try{
+        const save = await AsyncStorage.getItem("doneTask");
+        if (save) setDoneTask(JSON.parse(save))
+        
+    }
+
+    catch(err)
+    {
+        console.log(err)
+    }
+}
+
+
+const savedonetask = async(donetaskinedex :number[]) => {
+
+    try {
+        await AsyncStorage.setItem("doneTask",JSON.stringify(donetaskinedex))
+    }
+
+    catch (err)
+    {
+        console.log(err)
+    }
+}
 
 
 const loadsave = async() => {
@@ -43,6 +80,7 @@ const deleteTitle = (indexToDelete: number) => {
     setDoneTask(indexupdate)
     setTaskTitles(update)
     savetitle(update)
+   
 
 }
 
@@ -56,11 +94,10 @@ const taskdone = (indexdone : number) => {
     }
 else {
 setDoneTask([ ...doneTask , indexdone])
+    
 console.log(doneTask)
 }
     
-
-
 
    
 }
