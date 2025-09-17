@@ -67,23 +67,30 @@ export default function Home() {
         savetitle(update)
     }
 
+    {/*Task Done */ }
+
     const taskdone = (indexdone: number) => {
         if (doneTask.includes(indexdone)) {
             setDoneTask(doneTask.filter(doneindex => doneindex !== indexdone))
-           
+
         }
         else {
             setDoneTask([...doneTask, indexdone])
-            
+
         }
     }
-
+    {/*Adds the tasks*/ }
     const addTitle = () => {
         if (newTitles.trim() === "") return;
         const update = [...taskTitles, newTitles.trim()];
         setTaskTitles(update);
         savetitle(update)
         setNewTitles("")
+    }
+    {/* Removes all the task from save / task*/ }
+    const deletealltask = () => {
+        setTaskTitles([])
+        savetitle([])
     }
 
     return (
@@ -95,17 +102,21 @@ export default function Home() {
 
                 {/* Header Section */}
                 <View className="px-6 py-8">
+
+
+
                     <Text className="text-3xl text-text-primary text-center font-inter font-black tracking-tight">
                         Taskly
                     </Text>
                     <Text className="text-text-secondary text-sm text-center font-inter mt-2">
                         {taskTitles.length} tasks • {doneTask.length} completed
                     </Text>
+
                 </View>
 
                 {/* Input Section */}
-                <View className="px-6 mb-6">
-                    <View className="bg-card rounded-lg border border-neutral-border p-4 shadow-md">
+                <View className="px-6 mb-6  ">
+                    <View className="bg-card rounded-lg border border-neutral-border p-7 shadow-md ">
                         <TextInput
                             className="bg-transparent text-text-primary placeholder:text-placeholder text-base font-inter mb-4"
                             placeholder="What needs to be done?"
@@ -115,9 +126,9 @@ export default function Home() {
                         />
 
                         <Pressable
-                            className={`rounded-full px-6 py-3 items-center shadow-md ${newTitles.trim() === ""
-                                    ? "bg-neutral-border opacity-50"
-                                    : "bg-accent active:bg-accent-pressed"
+                            className={`rounded-full px-6 py-3 items-center shadow-md  ${newTitles.trim() === ""
+                                ? "bg-neutral-border opacity-50"
+                                : "bg-accent active:bg-accent-pressed"
                                 }`}
                             onPress={addTitle}
                             disabled={newTitles.trim() === ""}
@@ -127,6 +138,19 @@ export default function Home() {
                                 Add Task
                             </Text>
                         </Pressable>
+
+                        ${taskTitles.length > 0 && (
+                            <Pressable
+                                onPress={deletealltask}
+                                className="border bg-danger/50 border-danger/90 rounded-full px-6 py-3 mt-3  "
+                            >
+                                <Text className="text-white font-semibold text-center font-inter ">Delete All Task</Text>
+                            </Pressable>
+                        )
+
+
+                        }
+
                     </View>
 
 
@@ -154,9 +178,9 @@ export default function Home() {
                                         onPress={() => taskdone(index)}
                                     >
                                         <View className={` rounded-lg border border-neutral-border p-4 mb-3 shadow-sm ${doneTask.includes(index)
-                                                        ? "bg-accent"
-                                                        : "bg-card"
-                                                    }`}>
+                                            ? "bg-accent"
+                                            : "bg-card"
+                                            }`}>
 
                                             <View className="flex-row items-center justify-between">
 
