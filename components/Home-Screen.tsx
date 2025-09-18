@@ -58,7 +58,7 @@ export default function Home() {
             console.log(err)
         }
     };
-
+      {/*Task Delete */ }
     const deleteTitle = (indexToDelete: number) => {
         const update = taskTitles.filter((_, index) => index !== indexToDelete);
         const indexupdate = doneTask.filter(doneindex => doneindex !== indexToDelete).map(doneindex => (doneindex > indexToDelete ? doneindex - 1 : doneindex))
@@ -91,6 +91,7 @@ export default function Home() {
     const deletealltask = () => {
         setTaskTitles([])
         savetitle([])
+        setDoneTask([])
     }
 
     return (
@@ -118,7 +119,7 @@ export default function Home() {
                 <View className="px-6 mb-6  ">
                     <View className="bg-card rounded-lg border border-neutral-border p-7 shadow-md ">
                         <TextInput
-                            className="bg-transparent text-text-primary placeholder:text-placeholder text-base font-inter mb-4"
+                            className="bg-transparent  placeholder:text-placeholder text-base font-inter mb-4"
                             placeholder="What needs to be done?"
                             placeholderTextColor="#6E6E6E"
                             value={newTitles}
