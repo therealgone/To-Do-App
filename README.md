@@ -1,6 +1,9 @@
-# Slate Tasks — Expo React Native To‑Do App
+# Taskly — Expo React Native To‑Do App
+
+![Taskly](assets/icon.png)
 
 A minimal, fast, and offline‑first to‑do list built with Expo (React Native) and AsyncStorage. Create tasks, mark them as done, and your data persists across app restarts.
+![Taskly-UI](page-11.png)
 
 ## Highlights
 - **Offline-first**: Tasks are stored locally with `@react-native-async-storage/async-storage`.
