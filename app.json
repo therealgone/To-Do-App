@@ -2,7 +2,7 @@
   "expo": {
     "name": "Taskly",
     "slug": "taskly",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "experiments": {
       "tsconfigPaths": true
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.jeevanbaabu.taskly",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000000"
